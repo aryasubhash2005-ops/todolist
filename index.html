@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aesthetic To-Do List</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background: url("bg.jpeg") no-repeat center center/cover;
+            height: 100vh;
+            backdrop-filter: blur(2px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 350px;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #d63384;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            background: rgba(255,255,255,0.7);
+        }
+
+        button {
+            padding: 10px 15px;
+            background: #ff99c8;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background: #ff72b5;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            background: rgba(255,255,255,0.8);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .taskContent {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 70%;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #ff99c8;
+            cursor: pointer;
+        }
+
+        .completedText {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit {
+            background: #a6dcef;
+        }
+
+        .edit:hover {
+            background: #7bd3f7;
+        }
+
+        .delete {
+            background: #ff6f91;
+        }
+
+        .delete:hover {
+            background: #ff4f78;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My To-Do ✨</h1>
+
+        <input id="taskInput" placeholder="Add your task..." />
+        <button onclick="addTask()">Add</button>
+
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        function addTask() {
+            let input = document.getElementById("taskInput");
+            let taskText = input.value.trim();
+            if (taskText === "") return;
+
+            let li = document.createElement("li");
+
+            li.innerHTML = `
+                <div class="taskContent">
+                    <input type="checkbox" onclick="toggleTask(this)">
+                    <span class="taskText">${taskText}</span>
+                </div>
+                <div class="btns">
+                    <button class="edit" onclick="editTask(this)">Edit</button>
+                    <button class="delete" onclick="deleteTask(this)">X</button>
+                </div>
+            `;
+
+            document.getElementById("taskList").appendChild(li);
+            input.value = "";
+        }
+
+        function toggleTask(checkbox) {
+            let text = checkbox.parentElement.querySelector(".taskText");
+            if (checkbox.checked) {
+                text.classList.add("completedText");
+            } else {
+                text.classList.remove("completedText");
+            }
+        }
+
+        function deleteTask(btn) {
+            btn.parentElement.parentElement.remove();
+        }
+
+        function editTask(btn) {
+            let li = btn.parentElement.parentElement;
+            let taskText = li.querySelector(".taskText");
+
+            let newTask = prompt("Edit your task:", taskText.textContent);
+            if (newTask !== null && newTask.trim() !== "") {
+                taskText.textContent = newTask;
+            }
+        }
+    </script>
+</body>
+</html>
